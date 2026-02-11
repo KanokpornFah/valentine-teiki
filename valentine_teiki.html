@@ -85,7 +85,7 @@
         .container {
             text-align: center;
             position: relative;
-            width: 90%; /* Slightly wider to help text fit */
+            width: 90%; 
             max-width: 450px;
             background-color: var(--container-bg);
             border: 4px solid var(--border-color);
@@ -105,13 +105,14 @@
             text-shadow: 2px 2px 0px var(--border-color);
         }
 
-        /* Success Text Styling - UPDATED FOR 2 LINES */
-        #success-text {
-            /* Made font slightly bigger since we have 2 lines now */
-            font-size: clamp(0.8rem, 4vw, 1.4rem); 
-            line-height: 1.8; /* Good spacing between the two lines */
-            margin-bottom: 30px;
+        /* Success Text Styling - SPLIT TOP AND BOTTOM */
+        .success-text {
+            font-size: clamp(0.7rem, 3.5vw, 1.2rem); 
             width: 100%;
+            margin: 10px 0;
+            color: var(--text-color);
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0px var(--border-color);
         }
 
         img {
@@ -161,11 +162,11 @@
             color: #b71c1c;
         }
 
-        /* --- MOCHI CAT SVG (Success Screen) --- */
+        /* --- SQUARE MOCHI CAT SVG (Success Screen) --- */
         .mochi-cat {
-            width: 200px;
+            width: 180px;
             height: 180px;
-            margin-bottom: 10px;
+            margin: 20px 0; /* Spacing between text */
             filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.3));
             animation: jelly 2s infinite;
             transform-origin: bottom center;
@@ -182,7 +183,9 @@
             display: none;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             width: 100%;
+            min-height: 300px;
         }
 
     </style>
@@ -254,39 +257,41 @@
 
     <!-- Success Screen (Hidden initially) -->
     <div class="container" id="successScreen">
-        <!-- TEXT UPDATED: Two lines -->
-        <h1 id="success-text">See you soon<br>The love of my life</h1>
+        <!-- TOP TEXT -->
+        <h1 class="success-text">SEE YOU SOON</h1>
         
-        <!-- MOCHI CAT SVG -->
+        <!-- SQUARE MOCHI CAT SVG WITH HEART CHEEKS -->
         <svg class="mochi-cat" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <!-- Round Body -->
-            <ellipse cx="100" cy="120" rx="80" ry="70" fill="#FFFFFF" stroke="#5d4037" stroke-width="4"/>
+            <!-- Squircle Body -->
+            <rect x="40" y="60" width="120" height="100" rx="35" ry="35" fill="#FFFFFF" stroke="#5d4037" stroke-width="4"/>
             
-            <!-- Little Ears -->
-            <path d="M35 80 L30 50 L60 65 Z" fill="#FFFFFF" stroke="#5d4037" stroke-width="4" stroke-linejoin="round"/>
-            <path d="M165 80 L170 50 L140 65 Z" fill="#FFFFFF" stroke="#5d4037" stroke-width="4" stroke-linejoin="round"/>
-            <path d="M38 75 L35 58 L55 68 Z" fill="#ffab91" stroke="none"/> <!-- Inner ear pink -->
-            <path d="M162 75 L165 58 L145 68 Z" fill="#ffab91" stroke="none"/>
+            <!-- Pointy Ears -->
+            <path d="M50 70 L45 35 L75 55 Z" fill="#FFFFFF" stroke="#5d4037" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M150 70 L155 35 L125 55 Z" fill="#FFFFFF" stroke="#5d4037" stroke-width="4" stroke-linejoin="round"/>
+            
+            <!-- Inner Ears -->
+            <path d="M53 65 L50 45 L68 58 Z" fill="#ffab91" stroke="none"/> 
+            <path d="M147 65 L150 45 L132 58 Z" fill="#ffab91" stroke="none"/>
             
             <!-- Kawaii Face -->
             <!-- Eyes -->
-            <circle cx="70" cy="115" r="7" fill="#3e2723"/>
-            <circle cx="130" cy="115" r="7" fill="#3e2723"/>
+            <circle cx="75" cy="100" r="7" fill="#3e2723"/>
+            <circle cx="125" cy="100" r="7" fill="#3e2723"/>
             
-            <!-- Blush -->
-            <circle cx="55" cy="125" r="8" fill="#ffab91" opacity="0.6"/>
-            <circle cx="145" cy="125" r="8" fill="#ffab91" opacity="0.6"/>
+            <!-- HEART SHAPED CHEEKS -->
+            <path transform="translate(55, 110) scale(0.6)" d="M10,6 C10,1 15,1 18,6 C21,1 26,1 26,6 C26,12 18,18 18,18 C18,18 10,12 10,6 Z" fill="#ffab91" opacity="0.8"/>
+            <path transform="translate(125, 110) scale(0.6)" d="M10,6 C10,1 15,1 18,6 C21,1 26,1 26,6 C26,12 18,18 18,18 C18,18 10,12 10,6 Z" fill="#ffab91" opacity="0.8"/>
             
             <!-- Mouth (w shape) -->
-            <path d="M90 125 Q100 135 110 125" fill="none" stroke="#3e2723" stroke-width="4" stroke-linecap="round"/>
+            <path d="M90 108 Q100 118 110 108" fill="none" stroke="#3e2723" stroke-width="4" stroke-linecap="round"/>
             
-            <!-- Little Paws Holding Heart -->
-            <ellipse cx="75" cy="155" rx="12" ry="10" fill="#FFFFFF" stroke="#5d4037" stroke-width="3"/>
-            <ellipse cx="125" cy="155" rx="12" ry="10" fill="#FFFFFF" stroke="#5d4037" stroke-width="3"/>
-            
-            <!-- The Heart -->
-            <path d="M100 170 C 100 170, 80 150, 80 140 C 80 130, 95 125, 100 140 C 105 125, 120 130, 120 140 C 120 150, 100 170, 100 170 Z" fill="#ff5252" stroke="#5d4037" stroke-width="2"/>
+            <!-- Little Paws (Just resting) -->
+            <ellipse cx="75" cy="145" rx="10" ry="8" fill="#FFFFFF" stroke="#5d4037" stroke-width="3"/>
+            <ellipse cx="125" cy="145" rx="10" ry="8" fill="#FFFFFF" stroke="#5d4037" stroke-width="3"/>
         </svg>
+
+        <!-- BOTTOM TEXT -->
+        <h1 class="success-text">THE LOVE OF MY LIFE</h1>
 
     </div>
 
