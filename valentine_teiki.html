@@ -29,10 +29,9 @@
             background-color: var(--bg-color);
             font-family: 'Press Start 2P', cursive; /* ARCADE FONT */
             overflow: hidden;
-            image-rendering: pixelated; /* Keeps things crisp */
         }
 
-        /* --- BACKGROUND ANIMATION: Cat Chasing Heart --- */
+        /* --- BACKGROUND ANIMATION --- */
         .arcade-bg {
             position: absolute;
             top: 0;
@@ -40,40 +39,41 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.3; /* Subtle background */
+            opacity: 0.3; 
             background-image: 
                 linear-gradient(45deg, #4e342e 25%, transparent 25%), 
                 linear-gradient(-45deg, #4e342e 25%, transparent 25%), 
                 linear-gradient(45deg, transparent 75%, #4e342e 75%), 
                 linear-gradient(-45deg, transparent 75%, #4e342e 75%);
             background-size: 20px 20px;
-            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
         }
 
         .chase-track {
             position: absolute;
-            bottom: 20%; /* Positioned lower on screen */
             left: 0;
             width: 100%;
             height: 50px;
+            pointer-events: none;
         }
 
         .chase-container {
             position: absolute;
             display: flex;
             align-items: center;
-            gap: 20px;
-            animation: runAcross 8s linear infinite;
+            gap: 15px; 
+            animation: runAcross linear infinite;
         }
 
         @keyframes runAcross {
-            from { left: -150px; }
+            from { left: -250px; }
             to { left: 100vw; }
         }
 
-        .pixel-icon {
-            font-size: 2rem;
-            animation: bounceRun 0.5s infinite alternate;
+        /* Background Icons */
+        .bg-icon {
+            width: 35px;
+            height: 35px;
+            animation: bounceRun 0.4s infinite alternate;
         }
 
         @keyframes bounceRun {
@@ -85,42 +85,46 @@
         .container {
             text-align: center;
             position: relative;
-            width: 85%;
-            max-width: 400px;
+            width: 90%; /* Slightly wider to help text fit */
+            max-width: 450px;
             background-color: var(--container-bg);
             border: 4px solid var(--border-color);
             padding: 20px;
             box-shadow: 
-                8px 8px 0px rgba(0,0,0,0.3), /* Retro hard shadow */
+                8px 8px 0px rgba(0,0,0,0.3),
                 inset 4px 4px 0px rgba(255,255,255,0.2);
             z-index: 10;
         }
 
         h1 {
             color: var(--text-color);
-            font-size: 1.2rem; /* Adjusted for pixel font size */
+            font-size: 1.1rem;
             line-height: 1.6;
             margin-bottom: 20px;
             text-transform: uppercase;
             text-shadow: 2px 2px 0px var(--border-color);
         }
 
+        /* Success Text Styling - UPDATED FOR 2 LINES */
         #success-text {
-            font-size: 1rem;
-            white-space: normal; /* Allow wrap for arcade text */
+            /* Made font slightly bigger since we have 2 lines now */
+            font-size: clamp(0.8rem, 4vw, 1.4rem); 
+            line-height: 1.8; /* Good spacing between the two lines */
+            margin-bottom: 30px;
+            width: 100%;
         }
 
         img {
             max-width: 100%;
             height: auto;
-            border: 4px solid var(--border-color); /* Pixel border */
+            border: 4px solid var(--border-color);
             margin-bottom: 20px;
             max-height: 200px;
             object-fit: cover;
             background-color: white;
         }
 
-        /* --- ARCADE BUTTONS --- */
+        /* --- BUTTONS --- */
         .btn-container {
             display: flex;
             justify-content: center;
@@ -132,7 +136,7 @@
 
         button {
             padding: 15px 20px;
-            font-size: 0.8rem; /* Pixel font is naturally large */
+            font-size: 0.8rem;
             border: 4px solid var(--border-color);
             cursor: pointer;
             font-family: 'Press Start 2P', cursive;
@@ -148,25 +152,32 @@
         }
 
         #yesBtn {
-            background-color: #8bc34a; /* Retro Green */
+            background-color: #8bc34a; 
             color: #1b5e20;
         }
 
         #noBtn {
-            background-color: #ef5350; /* Retro Red */
+            background-color: #ef5350; 
             color: #b71c1c;
-            /* Removed fixed position initially so it sits nicely */
         }
 
-        /* --- SVG STYLES --- */
-        .cute-cat-svg {
-            width: 150px;
-            height: 150px;
-            margin-bottom: 20px;
+        /* --- MOCHI CAT SVG (Success Screen) --- */
+        .mochi-cat {
+            width: 200px;
+            height: 180px;
+            margin-bottom: 10px;
             filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.3));
+            animation: jelly 2s infinite;
+            transform-origin: bottom center;
         }
 
-        /* Hidden Success Screen */
+        @keyframes jelly {
+            0%, 100% { transform: scale(1, 1); }
+            25% { transform: scale(0.95, 1.05); }
+            50% { transform: scale(1.05, 0.95); }
+            75% { transform: scale(0.95, 1.05); }
+        }
+
         #successScreen {
             display: none;
             flex-direction: column;
@@ -178,19 +189,52 @@
 </head>
 <body>
 
-    <!-- RETRO BACKGROUND: Cat Chasing Heart -->
+    <!-- RETRO BACKGROUND: Cats Chasing Hearts -->
     <div class="arcade-bg">
+        
+        <!-- Define SVG Symbols for background usage -->
+        <svg style="display: none;">
+            <!-- Simple Round Blob Cat for Background -->
+            <symbol id="bg-blob-cat" viewBox="0 0 100 100">
+                <circle cx="50" cy="55" r="40" fill="currentColor"/>
+                <path d="M20 30 L10 10 L40 25 Z" fill="currentColor"/> <!-- Ear L -->
+                <path d="M80 30 L90 10 L60 25 Z" fill="currentColor"/> <!-- Ear R -->
+                <circle cx="35" cy="50" r="4" fill="#3e2723"/> <!-- Eye -->
+                <circle cx="65" cy="50" r="4" fill="#3e2723"/> <!-- Eye -->
+            </symbol>
+            
+            <!-- THE HEART -->
+            <symbol id="bg-heart" viewBox="0 0 24 24">
+                <path fill="#ff5252" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </symbol>
+        </svg>
+
+        <!-- Animation Tracks -->
         <div class="chase-track" style="top: 10%;">
             <div class="chase-container" style="animation-duration: 12s;">
-                <div class="pixel-icon">❤</div>
-                <div class="pixel-icon" style="transform: scaleX(-1);">🐈</div> <!-- Flipped cat -->
+                <svg class="bg-icon" style="color: #ffab91;"><use href="#bg-blob-cat"/></svg>
+                <svg class="bg-icon"><use href="#bg-heart"/></svg>
             </div>
         </div>
         
-        <div class="chase-track" style="bottom: 15%;">
-            <div class="chase-container">
-                <div class="pixel-icon">❤️</div>
-                <div class="pixel-icon" style="transform: scaleX(-1);">🐈</div>
+        <div class="chase-track" style="top: 30%;">
+            <div class="chase-container" style="animation-duration: 15s; animation-delay: -5s;">
+                <svg class="bg-icon" style="color: #ffffff;"><use href="#bg-blob-cat"/></svg>
+                <svg class="bg-icon"><use href="#bg-heart"/></svg>
+            </div>
+        </div>
+
+        <div class="chase-track" style="top: 50%;">
+            <div class="chase-container" style="animation-duration: 10s; animation-delay: -2s;">
+                <svg class="bg-icon" style="color: #333333;"><use href="#bg-blob-cat"/></svg>
+                <svg class="bg-icon"><use href="#bg-heart"/></svg>
+            </div>
+        </div>
+
+        <div class="chase-track" style="top: 70%;">
+            <div class="chase-container" style="animation-duration: 18s; animation-delay: -8s;">
+                <svg class="bg-icon" style="color: #ffe0b2;"><use href="#bg-blob-cat"/></svg>
+                <svg class="bg-icon"><use href="#bg-heart"/></svg>
             </div>
         </div>
     </div>
@@ -199,7 +243,7 @@
     <div class="container" id="questionScreen">
         <h1>Teiki, will you be my valentine?</h1>
         
-        <!-- Pleading Cat (Kept original gif but styled with border) -->
+        <!-- Pleading Cat -->
         <img src="https://media.tenor.com/yF_kO8S7KxcAAAAM/cat-pleading.gif" alt="Please Cat">
         
         <div class="btn-container">
@@ -210,22 +254,38 @@
 
     <!-- Success Screen (Hidden initially) -->
     <div class="container" id="successScreen">
-        <h1 id="success-text">See you the love of my life ❤️</h1>
+        <!-- TEXT UPDATED: Two lines -->
+        <h1 id="success-text">See you soon<br>The love of my life</h1>
         
-        <!-- ARCADE STYLE CAT SVG -->
-        <svg class="cute-cat-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <!-- Simple Pixel Cat Shape -->
-            <path fill="#FFFFFF" d="M7 6h2v-2h6v2h2v2h2v8h-2v2h-2v2h-8v-2h-2v-2h-2v-8h2v-2z"/>
-            <!-- Outline/Shadow detail -->
-            <path fill="#3e2723" fill-opacity="0.2" d="M7 6h2v2h-2zM15 6h2v2h-2z"/> 
+        <!-- MOCHI CAT SVG -->
+        <svg class="mochi-cat" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Round Body -->
+            <ellipse cx="100" cy="120" rx="80" ry="70" fill="#FFFFFF" stroke="#5d4037" stroke-width="4"/>
+            
+            <!-- Little Ears -->
+            <path d="M35 80 L30 50 L60 65 Z" fill="#FFFFFF" stroke="#5d4037" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M165 80 L170 50 L140 65 Z" fill="#FFFFFF" stroke="#5d4037" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M38 75 L35 58 L55 68 Z" fill="#ffab91" stroke="none"/> <!-- Inner ear pink -->
+            <path d="M162 75 L165 58 L145 68 Z" fill="#ffab91" stroke="none"/>
+            
+            <!-- Kawaii Face -->
             <!-- Eyes -->
-            <rect x="8" y="10" width="2" height="2" fill="#3e2723"/>
-            <rect x="14" y="10" width="2" height="2" fill="#3e2723"/>
+            <circle cx="70" cy="115" r="7" fill="#3e2723"/>
+            <circle cx="130" cy="115" r="7" fill="#3e2723"/>
+            
             <!-- Blush -->
-            <rect x="7" y="13" width="2" height="1" fill="#ffab91"/>
-            <rect x="15" y="13" width="2" height="1" fill="#ffab91"/>
-            <!-- Heart -->
-            <path fill="#ff5252" d="M11 15h2v1h-2z M10 14h1v1h-1z M13 14h1v1h-1z M11 16h2v1h-2z"/>
+            <circle cx="55" cy="125" r="8" fill="#ffab91" opacity="0.6"/>
+            <circle cx="145" cy="125" r="8" fill="#ffab91" opacity="0.6"/>
+            
+            <!-- Mouth (w shape) -->
+            <path d="M90 125 Q100 135 110 125" fill="none" stroke="#3e2723" stroke-width="4" stroke-linecap="round"/>
+            
+            <!-- Little Paws Holding Heart -->
+            <ellipse cx="75" cy="155" rx="12" ry="10" fill="#FFFFFF" stroke="#5d4037" stroke-width="3"/>
+            <ellipse cx="125" cy="155" rx="12" ry="10" fill="#FFFFFF" stroke="#5d4037" stroke-width="3"/>
+            
+            <!-- The Heart -->
+            <path d="M100 170 C 100 170, 80 150, 80 140 C 80 130, 95 125, 100 140 C 105 125, 120 130, 120 140 C 120 150, 100 170, 100 170 Z" fill="#ff5252" stroke="#5d4037" stroke-width="2"/>
         </svg>
 
     </div>
@@ -265,8 +325,6 @@
                 heart.style.position = 'fixed';
                 heart.style.left = Math.random() * 100 + 'vw';
                 heart.style.top = '-20px';
-                heart.style.boxShadow = '10px 0 0 0, 20px 0 0 0, 0 10px 0 0, 30px 10px 0 0, 10px 20px 0 0, 20px 20px 0 0, 10px 30px 0 0'; // Quick CSS Pixel Heart shape
-                // Actually simple square confetti fits arcade theme better
                 heart.style.boxShadow = '0px 0px 0px transparent'; 
                 
                 heart.style.transition = 'top 3s linear';
@@ -274,7 +332,6 @@
                 
                 document.body.appendChild(heart);
 
-                // Use requestAnimationFrame for smoother start
                 requestAnimationFrame(() => {
                     heart.style.top = '110vh';
                 });
